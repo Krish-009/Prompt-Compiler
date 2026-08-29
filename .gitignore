@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+
+# Secrets and local configuration. .env.example is the only one that ships.
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+secrets.json
+.secrets/
+
+# Test / tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Local development tooling — not part of the application, and the
+# application runs without it. Delete these lines to publish it instead.
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+docs/project_memory.json
+docs/codebase_index.json
+docs/development_status.md

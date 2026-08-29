@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "prompt-compiler"
+version = "0.1.0"
+description = "Transforms a basic prompt into a precise, intent-preserving prompt."
+requires-python = ">=3.12"
+dependencies = [
+    "anthropic>=1.2",
+    "google-genai>=2.20",
+    "groq>=1.7",
+    # google-genai does not wrap transport failures, so providers/gemini.py catches httpx
+    # exceptions directly. It arrives transitively, but an import this code depends on is
+    # declared rather than assumed.
+    "httpx>=0.28",
+    "pydantic>=2.7",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+# httpx2 is used directly by the provider tests to build fake SDK errors. It arrives
+# transitively via anthropic, but relying on that would break confusingly if the SDK
+# ever changed transport, so it is declared.
+dev = ["pytest>=8", "httpx2>=2"]
+
+[project.scripts]
+prompt-compiler = "prompt_compiler.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-m 'not live'"
+markers = [
+    "live: calls the real Anthropic API and costs money. Run with: pytest -m live",
+]
